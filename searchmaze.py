@@ -43,7 +43,7 @@ class Maze():
 
     def __init__(self, filename):
 
-        # Read file and set height and width of maze
+        # Read file and set height and width of maze (all the actions)
         with open(filename) as f:
             contents = f.read()
 
@@ -53,12 +53,12 @@ class Maze():
         if contents.count("B") != 1:
             raise Exception("maze must have exactly one goal")
 
-        # Determine height and width of maze
+        # height and width of maze
         contents = contents.splitlines()
         self.height = len(contents)
         self.width = max(len(line) for line in contents)
 
-        # Keep track of walls
+        # Tracking
         self.walls = []
         for i in range(self.height):
             row = []
@@ -122,12 +122,12 @@ class Maze():
         # Keep track of number of states explored
         self.num_explored = 0
 
-        # Initialize frontier to just the starting position
+        # Initialize frontier to the position
         start = Node(state=self.start, parent=None, action=None)
         frontier = StackFrontier()
         frontier.add(start)
 
-        # Initialize an empty explored set
+        # empty explored set
         self.explored = set()
 
         # Keep looping until solution found
@@ -137,11 +137,11 @@ class Maze():
             if frontier.empty():
                 raise Exception("no solution")
 
-            # Choose a node from the frontier
+            # Choose a node (from the frontier)
             node = frontier.remove()
             self.num_explored += 1
 
-            # If node is the goal, then we have a solution
+            # If node is the goal, then we have a solution ! *
             if node.state == self.goal:
                 actions = []
                 cells = []
@@ -169,7 +169,7 @@ class Maze():
         cell_size = 50
         cell_border = 2
 
-        # Create a blank canvas
+        # blank canvas
         img = Image.new(
             "RGBA",
             (self.width * cell_size, self.height * cell_size),
@@ -217,7 +217,7 @@ class Maze():
 
 if len(sys.argv) != 2:
     sys.exit("Usage: python maze.py maze.txt")
-
+# file system
 m = Maze(sys.argv[1])
 print("Maze:")
 m.print()
